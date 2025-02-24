@@ -7,6 +7,8 @@ import statsmodels.api as sm
 from scipy import stats
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
 # Regression Analysis Functions
 def simple_linear_regression(df, x_col, y_col):
     X = df[[x_col]]
@@ -128,23 +130,24 @@ if uploaded_file is not None:
                                ("Simple Linear Regression", "Multiple Linear Regression", "Logistic Regression"))
 
     # Simple Linear Regression
+        x_col, y_col, x_cols = None, None, []
         if regression_type == "Simple Linear Regression":
             st.write("### Simple Linear Regression")
             numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
             x_col = st.selectbox("Select Predictor Variable", numeric_columns)
             y_col = st.selectbox("Select Response Variable", numeric_columns)
-        if x_col and y_col:
-            st.write(f"### Results for Simple Linear Regression (Predicting {y_col} from {x_col})")
-            X = sm.add_constant(df[x_col])  # Add intercept
-            Y = df[y_col]
+            if x_col and y_col:
+                st.write(f"### Results for Simple Linear Regression (Predicting {y_col} from {x_col})")
+                X = sm.add_constant(df[x_col])  # Add intercept
+                Y = df[y_col]
 
-            model = sm.OLS(Y, X).fit()
-            st.write(model.summary())
+                model = sm.OLS(Y, X).fit()
+                st.write(model.summary())
 
-            st.write("#### Interpretation:")
-            st.write("- The coefficient represents the change in the response variable for a one-unit increase in the predictor.")
-            st.write("- A significant p-value (<0.05) suggests a meaningful relationship.")
-            st.write("- The R-squared value indicates the percentage of variability explained by the predictor.")
+                st.write("#### Interpretation:")
+                st.write("- The coefficient represents the change in the response variable for a one-unit increase in the predictor.")
+                st.write("- A significant p-value (<0.05) suggests a meaningful relationship.")
+                st.write("- The R-squared value indicates the percentage of variability explained by the predictor.")
 
     # Multiple Linear Regression
         x_cols = []  # Ensure x_cols is always defined
