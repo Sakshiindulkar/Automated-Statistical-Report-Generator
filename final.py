@@ -128,12 +128,11 @@ if uploaded_file is not None:
                                ("Simple Linear Regression", "Multiple Linear Regression", "Logistic Regression"))
 
     # Simple Linear Regression
-    if regression_type == "Simple Linear Regression":
-        st.write("### Simple Linear Regression")
-        numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
-        x_col = st.selectbox("Select Predictor Variable", numeric_columns)
-        y_col = st.selectbox("Select Response Variable", numeric_columns)
-
+        if regression_type == "Simple Linear Regression":
+            st.write("### Simple Linear Regression")
+            numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+            x_col = st.selectbox("Select Predictor Variable", numeric_columns)
+            y_col = st.selectbox("Select Response Variable", numeric_columns)
         if x_col and y_col:
             st.write(f"### Results for Simple Linear Regression (Predicting {y_col} from {x_col})")
             X = sm.add_constant(df[x_col])  # Add intercept
@@ -148,7 +147,7 @@ if uploaded_file is not None:
             st.write("- The R-squared value indicates the percentage of variability explained by the predictor.")
 
     # Multiple Linear Regression
-    elif regression_type == "Multiple Linear Regression":
+        elif regression_type == "Multiple Linear Regression":
         st.write("### Multiple Linear Regression")
         numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
         x_cols = st.multiselect("Select Predictor Variables", numeric_columns)
@@ -168,7 +167,7 @@ if uploaded_file is not None:
             st.write("- Check Variance Inflation Factor (VIF) to avoid multicollinearity.")
 
     # Logistic Regression
-    elif regression_type == "Logistic Regression":
+        elif regression_type == "Logistic Regression":
         st.write("### Logistic Regression")
         numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
         categorical_columns = df.select_dtypes(include=[object, 'category']).columns.tolist()  # Ensure categorical target
