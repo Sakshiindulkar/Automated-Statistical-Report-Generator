@@ -147,7 +147,9 @@ if uploaded_file is not None:
             st.write("- The R-squared value indicates the percentage of variability explained by the predictor.")
 
     # Multiple Linear Regression
-        elif regression_type == "Multiple Linear Regression":
+        x_cols = []  # Ensure x_cols is always defined
+        y_col = None  # Ensure y_col is always defined
+        if regression_type == "Multiple Linear Regression":
             st.write("### Multiple Linear Regression")
             numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
             x_cols = st.multiselect("Select Predictor Variables", numeric_columns)
