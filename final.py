@@ -148,10 +148,10 @@ if uploaded_file is not None:
 
     # Multiple Linear Regression
         elif regression_type == "Multiple Linear Regression":
-        st.write("### Multiple Linear Regression")
-        numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
-        x_cols = st.multiselect("Select Predictor Variables", numeric_columns)
-        y_col = st.selectbox("Select Response Variable", numeric_columns)
+            st.write("### Multiple Linear Regression")
+            numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+            x_cols = st.multiselect("Select Predictor Variables", numeric_columns)
+            y_col = st.selectbox("Select Response Variable", numeric_columns)
 
         if x_cols and y_col:
             st.write(f"### Results for Multiple Linear Regression (Predicting {y_col} from {', '.join(x_cols)})")
@@ -168,11 +168,11 @@ if uploaded_file is not None:
 
     # Logistic Regression
         elif regression_type == "Logistic Regression":
-        st.write("### Logistic Regression")
-        numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
-        categorical_columns = df.select_dtypes(include=[object, 'category']).columns.tolist()  # Ensure categorical target
-        x_cols = st.multiselect("Select Predictor Variables", numeric_columns)
-        y_col = st.selectbox("Select Response Variable (Binary)", categorical_columns)
+            st.write("### Logistic Regression")
+            numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+            categorical_columns = df.select_dtypes(include=[object, 'category']).columns.tolist()  # Ensure categorical target
+            x_cols = st.multiselect("Select Predictor Variables", numeric_columns)
+            y_col = st.selectbox("Select Response Variable (Binary)", categorical_columns)
 
         if x_cols and y_col:
             st.write(f"### Results for Logistic Regression (Predicting {y_col} from {', '.join(x_cols)})")
