@@ -94,11 +94,6 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
         st.write("### Column Names:")
         st.write(df.columns.tolist())
 
-
-    # Add a sidebar for navigation
-    #st.sidebar.title("Navigate")
-    #app_mode = st.sidebar.radio("Select a page", ["Descriptive Statistics", "Correlation Graphs", "Regression Analysis", "Hypothesis Testing"])
-
     # Descriptive Statistics Page
         if app_mode == "Descriptive Statistics":
             st.header("Descriptive Statistics")
@@ -114,15 +109,15 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                 - *25%, 50%, 75%*: These are the percentiles of the data, showing the spread of the data.
             """)
 
-    # Correlation Graphs Page
+        # Correlation Graphs Page
         elif app_mode == "Correlation Graphs":
             st.header("Correlation Graphs")
             st.write("Below is the correlation heatmap of the numeric features in your dataset:")
 
-     # Select only numeric columns
+         # Select only numeric columns
             numeric_df = df.select_dtypes(include=[np.number])
 
-    # Check if there are numeric columns in the DataFrame
+            # Check if there are numeric columns in the DataFrame
             if not numeric_df.empty:
                 correlation_matrix = numeric_df.corr()
 
@@ -144,7 +139,7 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
             regression_type = st.radio("Choose Regression Type", 
                                    ("Simple Linear Regression", "Multiple Linear Regression", "Logistic Regression"))
 
-    # Simple Linear Regression
+            # Simple Linear Regression
             x_col, y_col, x_cols = None, None, []
             if regression_type == "Simple Linear Regression":
                 st.write("### Simple Linear Regression")
@@ -164,7 +159,7 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                     st.write("- A significant p-value (<0.05) suggests a meaningful relationship.")
                     st.write("- The R-squared value indicates the percentage of variability explained by the predictor.")
 
-    # Multiple Linear Regression
+            # Multiple Linear Regression
             x_cols = []  # Ensure x_cols is always defined
             y_col = None  # Ensure y_col is always defined
             if regression_type == "Multiple Linear Regression":
@@ -186,7 +181,7 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                 st.write("- A high R-squared suggests a good fit, but very high may indicate overfitting.")
                 st.write("- Check Variance Inflation Factor (VIF) to avoid multicollinearity.")
 
-    # Logistic Regression
+            # Logistic Regression
             if regression_type == "Logistic Regression":
                 st.write("### Logistic Regression")
                 numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
@@ -199,23 +194,23 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                 X = df[x_cols]
                 Y = df[y_col].astype('category').cat.codes  # Convert categorical target to numerical 0/1
 
-        # Logistic Regression Model
+                # Logistic Regression Model
                 model = LogisticRegression()
                 model.fit(X, Y)
                 predictions = model.predict(X)
 
-    # Calculate accuracy
+                # Calculate accuracy
                 accuracy = accuracy_score(Y, predictions)
 
-    # Confusion Matrix
+                # Confusion Matrix
                 cm = confusion_matrix(Y, predictions)
     
-    # Display results
+                # Display results
                 st.write(f"**Accuracy**: {accuracy:.2f}")
                 st.write("#### Confusion Matrix:")
                 st.write(cm)
 
-    # Detailed performance metrics
+                # Detailed performance metrics
                 precision = precision_score(Y, predictions, average='weighted')  # or 'macro', 'micro'
                 recall = recall_score(Y, predictions, average='weighted')  # or 'macro', 'micro'
                 f1 = f1_score(Y, predictions, average='weighted')  # or 'macro', 'micro'
@@ -224,11 +219,11 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                 st.write(f"**Recall**: {recall:.2f}")
                 st.write(f"**F1-Score**: {f1:.2f}")
 
-    # Classification Report
+                # Classification Report
                 st.write("#### Classification Report:")
                 st.text(classification_report(Y, predictions))
 
-    # Confusion Matrix Heatmap
+                # Confusion Matrix Heatmap
                 st.write("#### Confusion Matrix Heatmap:")
                 fig, ax = plt.subplots()
                 sns.heatmap(cm,annot=True, fmt='d', cmap='Blues', cbar=False, xticklabels=['Predicted 0', 'Predicted 1'], yticklabels=['Actual 0', 'Actual 1'])
@@ -237,7 +232,7 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                 ax.set_title('Confusion Matrix Heatmap')
                 st.pyplot(fig)
 
-    # Interpretation of Results
+                # Interpretation of Results
                 st.write("#### Interpretation:")
                 st.write("- **Accuracy** represents the proportion of correct predictions. A higher value indicates better performance.")
                 st.write("- **Precision** tells us how many of the predicted positives are actually positive.")
@@ -246,20 +241,11 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                 st.write("- The **Confusion Matrix** provides a breakdown of True Positives (TP), True Negatives (TN), False Positives (FP), and False Negatives (FN).")
                 st.write("- A high precision and recall with a balanced dataset indicates a good model.")
                 st.write("- The **Confusion Matrix Heatmap** provides a visual representation of the matrix, with darker colors indicating higher values.")
-    # Upload CSV file for Hypothesis Testing
-#st.sidebar.write("### Upload CSV for Hypothesis Testing")
-#uploaded_file = st.sidebar.file_uploader("Choose a CSV file", type="csv")
-
-# If the user uploads a file, load it as a DataFrame
-#if uploaded_file is not None:
-#    df = pd.read_csv(uploaded_file)
-#    st.write("### Data Preview")
- #   st.write(df.head())  # Display the first few rows of the uploaded file
-    # Hypothesis Testing
+        # Hypothesis Testing
         if app_mode == "Hypothesis Testing":
             st.write("### Hypothesis Testing Page")
 
-    # Upload CSV file specifically for Hypothesis Testing
+            # Upload CSV file specifically for Hypothesis Testing
 else:   
             uploaded_file = st.sidebar.file_uploader("Upload CSV for Hypothesis Testing", type="csv")
     
@@ -269,13 +255,13 @@ else:
                 st.write(df.head())  # Show only the relevant hypothesis testing data
                 st.write("This dataset will be used for hypothesis testing.")
 
-        # Hypothesis Testing Section
+                # Hypothesis Testing Section
                 test_type = st.radio("Choose Test Type", 
                                  ("One-sample t-test", "Two-sample t-test", "Paired t-test", 
                                   "Chi-square Test", "Mann-Whitney U Test", "Wilcoxon Signed-Rank Test"))
 
 
-    # One-sample t-test
+                # One-sample t-test
                 if test_type == "One-sample t-test":
                     column = st.selectbox("Select Column", df.select_dtypes(include=[np.number]).columns.tolist())
                     value = st.number_input("Enter the value for comparison", value=0)
@@ -283,7 +269,7 @@ else:
                     st.write(f"**One-sample t-test Result**")
                     st.write(f"t-statistic: {stat}, p-value: {p}")
         
-        # Interpretation based on p-value
+                    # Interpretation based on p-value
                     st.write("#### Interpretation:")
                     st.write("- The one-sample t-test is used to compare the sample mean to a known value.")
 
@@ -292,7 +278,7 @@ else:
                     else:
                         st.write("p value =",p,"> 0.05"," Therefore, **Fail to reject the null hypothesis**: There is no significant difference between the sample mean and the given value.")
 
-    # Two-sample t-test
+                # Two-sample t-test
                 elif test_type == "Two-sample t-test":
                     column1 = st.selectbox("Select First Column", df.select_dtypes(include=[np.number]).columns.tolist())
                     column2 = st.selectbox("Select Second Column", df.select_dtypes(include=[np.number]).columns.tolist())
@@ -300,7 +286,7 @@ else:
                     st.write(f"**Two-sample t-test Result**")
                     st.write(f"t-statistic: {stat}, p-value: {p}")
         
-        # Interpretation based on p-value
+                    # Interpretation based on p-value
                     st.write("#### Interpretation:")
                     st.write("- The two-sample t-test compares the means of two independent groups.")
                     if p < 0.05:
@@ -308,7 +294,7 @@ else:
                     else:
                         st.write("p value =",p,"> 0.05"," Therefore, **Fail to reject the null hypothesis**: There is no significant difference in means between the two groups.")
 
-    # Paired t-test (Wilcoxon Signed-Rank Test for non-parametric)
+                # Paired t-test (Wilcoxon Signed-Rank Test for non-parametric)
                 elif test_type == "Paired t-test":
                     column1 = st.selectbox("Select First Column", df.select_dtypes(include=[np.number]).columns.tolist())
                     column2 = st.selectbox("Select Second Column", df.select_dtypes(include=[np.number]).columns.tolist())
@@ -316,14 +302,14 @@ else:
                     st.write(f"**Paired t-test Result**")
                     st.write(f"t-statistic: {stat}, p-value: {p}")
         
-        # Interpretation based on p-value
+                    # Interpretation based on p-value
                     st.write("#### Interpretation:")
                     if p < 0.05:
                         st.write("p value =",p,"< 0.05"," Therefore, **Reject the null hypothesis**: There is a significant difference between the paired samples.")
                     else:
                         st.write("p value =",p,"> 0.05"," Therefore, **Fail to reject the null hypothesis**: There is no significant difference between the paired samples.")
 
-    # Chi-square Test
+                # Chi-square Test
                 elif test_type == "Chi-square Test":
                     column1 = st.selectbox("Select First Column", df.select_dtypes(include=[object]).columns.tolist())
                     column2 = st.selectbox("Select Second Column", df.select_dtypes(include=[object]).columns.tolist())
@@ -331,7 +317,7 @@ else:
                     st.write(f"**Chi-square Test Result**")
                     st.write(f"Chi-square statistic: {stat}, p-value: {p}")
         
-        # Interpretation based on p-value
+                    # Interpretation based on p-value
                     st.write("#### Interpretation:")
                     st.write("- The Chi-square test assesses whether there is an association between two categorical variables.")
                     if p < 0.05:
@@ -339,7 +325,7 @@ else:
                     else:
                         st.write("p value =",p,"> 0.05"," Therefore, **Fail to reject the null hypothesis**: There is no significant association between the two categorical variables.")
 
-    # Mann-Whitney U Test
+                # Mann-Whitney U Test
                 elif test_type == "Mann-Whitney U Test":
                     column1 = st.selectbox("Select First Column", df.select_dtypes(include=[np.number]).columns.tolist())
                     column2 = st.selectbox("Select Second Column", df.select_dtypes(include=[np.number]).columns.tolist())
@@ -347,7 +333,7 @@ else:
                     st.write(f"**Mann-Whitney U Test Result**")
                     st.write(f"U-statistic: {stat}, p-value: {p}")
         
-        # Interpretation based on p-value
+                    # Interpretation based on p-value
                     st.write("#### Interpretation:")
                     st.write("- The Mann-Whitney U test is a non-parametric test used to compare distributions between two independent groups.")
                     if p < 0.05:
@@ -355,7 +341,7 @@ else:
                     else:
                         st.write("p value =",p,"> 0.05"," Therefore, **Fail to reject the null hypothesis**: There is no significant difference between the distributions of the two groups.")
 
-    # Wilcoxon Signed-Rank Test
+                # Wilcoxon Signed-Rank Test
                 elif test_type == "Wilcoxon Signed-Rank Test":
                     column1 = st.selectbox("Select First Column", df.select_dtypes(include=[np.number]).columns.tolist())
                     column2 = st.selectbox("Select Second Column", df.select_dtypes(include=[np.number]).columns.tolist())
@@ -363,7 +349,7 @@ else:
                     st.write(f"**Wilcoxon Signed-Rank Test Result**")
                     st.write(f"Wilcoxon statistic: {stat}, p-value: {p}")
         
-        # Interpretation based on p-value
+                    # Interpretation based on p-value
                     st.write("#### Interpretation:")
                     st.write("- The Wilcoxon Signed-Rank test is used to test differences between paired samples.")
                     if p < 0.05:
