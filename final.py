@@ -65,12 +65,12 @@ def wilcoxon_test(df, column1, column2):
 # Set the title of the app
 st.title("Automated Statistical Report Generator")
 st.write("""Created by Group D:
-           Sakshi Indulkar (909)
-           Tripti Yadav (939)
-           Shruthi Thootey (935)
-           Mangesh Patel (942)
-           Divya Jain (913)
-           Himanshu Pandey (921)
+           Sakshi Indulkar (909),
+           Tripti Yadav (939),
+           Shruthi Thootey (935),
+           Mangesh Patel (942),
+           Divya Jain (913),
+           Himanshu Pandey (921),
            Maheshwari Yadav (937).
  """)
 # Create a file uploader for users to upload a CSV file
