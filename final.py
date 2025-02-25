@@ -172,7 +172,7 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                 ]
 
                 if multicollinear_features:
-                    st.write("⚠️ **Potential Multicollinearity Detected:** The following feature pairs have very high correlation (> 0.85), which might affect regression models:")
+                    st.write("**Potential Multicollinearity Detected:** The following feature pairs have very high correlation (> 0.85), which might affect regression models:")
                     for col1, col2, corr in multicollinear_features:
                         st.write(f"- `{col1}` and `{col2}`: Correlation = **{corr:.2f}**")
                     st.write("🔹 Consider removing one of the highly correlated features to avoid redundancy in regression models.")
