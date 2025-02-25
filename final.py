@@ -121,9 +121,9 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
             if not numeric_df.empty:
                 correlation_matrix = numeric_df.corr()
 
-                plt.figure(figsize=(10, 8))
+                fig, ax = plt.subplots(figsize=(10, 8))
                 sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f")
-                st.pyplot()
+                st.pyplot(fig)
 
                 # Finding the strongest positive and negative correlations
                 strongest_positive = None
