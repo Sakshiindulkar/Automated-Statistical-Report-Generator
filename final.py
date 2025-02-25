@@ -114,7 +114,7 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
             st.header("Correlation Graphs")
             st.write("Below is the correlation heatmap of the numeric features in your dataset:")
 
-         # Select only numeric columns
+        # Select only numeric columns
             numeric_df = df.select_dtypes(include=[np.number])
 
             # Check if there are numeric columns in the DataFrame
@@ -125,12 +125,58 @@ if app_mode == "Descriptive Statistics" or app_mode == "Correlation Graphs" or a
                 sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f")
                 st.pyplot()
 
-                st.write("Interpretation:")
-                st.write("""
-                    - Correlation coefficients range from -1 to 1. A positive value indicates a direct relationship, while a negative value indicates an inverse relationship.
-                    - The closer the value is to 1 or -1, the stronger the relationship.
-                    - The heatmap visually helps to identify highly correlated features.
-                """)
+                # Finding the strongest positive and negative correlations
+                strongest_positive = None
+                strongest_negative = None
+                max_pos_corr = 0  # Track highest positive correlation
+                max_neg_corr = 0  # Track highest negative correlation
+
+                for col1 in correlation_matrix.columns:
+                    for col2 in correlation_matrix.columns:
+                        if col1 != col2:
+                            corr_value = correlation_matrix.loc[col1, col2]
+
+                            if corr_value > max_pos_corr:
+                                max_pos_corr = corr_value
+                                strongest_positive = (col1, col2, corr_value)
+
+                            if corr_value < max_neg_corr:
+                                max_neg_corr = abs(corr_value)
+                                strongest_negative = (col1, col2, corr_value)
+
+                 # Interpretation based on dataset
+                st.write("### Interpretation of the Correlation Heatmap:")
+
+                if strongest_positive:
+                    st.write(f"✅ **Strongest Positive Correlation:** `{strongest_positive[0]}` and `{strongest_positive[1]}` with a correlation of **{strongest_positive[2]:.2f}**.")
+                    if strongest_positive[2] > 0.8:
+                        st.write("📈 These features are highly correlated, indicating they may carry similar information.")
+                    elif strongest_positive[2] > 0.5:
+                        st.write("📊 These features show a moderate correlation, which could be useful for predictive analysis.")
+
+                if strongest_negative:
+                    st.write(f"❌ **Strongest Negative Correlation:** `{strongest_negative[0]}` and `{strongest_negative[1]}` with a correlation of **{strongest_negative[2]:.2f}**.")
+                    if strongest_negative[2] < -0.8:
+                        st.write("🔻 These features are strongly inversely related, i.e. when one increases, the other decreases significantly.")
+                    elif strongest_negative[2] < -0.5:
+                        st.write("🔄 These features have a moderate inverse relationship, which may be useful for understanding dependencies.")
+                    else:
+                        st.write("⚠️ The strongest negative correlation is weak, i.e. there is little to no inverse relationship.")
+
+                # Identify potential multicollinearity issues
+                multicollinear_features = [
+                    (col1, col2, correlation_matrix.loc[col1, col2])
+                    for col1 in correlation_matrix.columns
+                    for col2 in correlation_matrix.columns
+                    if col1 != col2 and abs(correlation_matrix.loc[col1, col2]) > 0.85
+                ]
+
+                if multicollinear_features:
+                    st.write("⚠️ **Potential Multicollinearity Detected:** The following feature pairs have very high correlation (> 0.85), which might affect regression models:")
+                    for col1, col2, corr in multicollinear_features:
+                        st.write(f"- `{col1}` and `{col2}`: Correlation = **{corr:.2f}**")
+                    st.write("🔹 Consider removing one of the highly correlated features to avoid redundancy in regression models.")
+
             else:
                 st.write("No numeric columns found in the dataset for correlation.")
 
